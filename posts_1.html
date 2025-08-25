@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章列表 - 小梦静态博客</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Garamond", serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.8;
+            background: #121212 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" opacity="0.03"><path d="M0,50 Q50,0 100,50 Q50,100 0,50" fill="none" stroke="%23cc3366" stroke-width="1"/></svg>');
+            color: #e0e0e0;
+        }
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #cc3366;
+            position: relative;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            color: #cc3366;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(204, 51, 102, 0.5);
+            letter-spacing: 2px;
+        }
+        .header p {
+            font-size: 1.1rem;
+            color: #999;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .article-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        .article-item {
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+            transition: all 0.3s ease;
+            border: 1px solid #444;
+            position: relative;
+        }
+        .article-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8);
+            border-color: #cc3366;
+        }
+        .article-item:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, #cc3366, transparent);
+        }
+        .article-content {
+            padding: 25px;
+        }
+        .article-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        .article-title a {
+            color: #cc9999;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .article-title a:hover {
+            color: #cc3366;
+            text-decoration: underline;
+            text-shadow: 0 0 8px rgba(204, 51, 102, 0.5);
+        }
+        .article-excerpt {
+            color: #ccc;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #777;
+            font-size: 0.9rem;
+            border-top: 1px dashed #444;
+            padding-top: 15px;
+        }
+        .article-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .tag {
+            background: linear-gradient(to bottom, #222, #1a1a1a);
+            color: #cc9999;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: 1px solid #444;
+        }
+        .tag:hover {
+            background: linear-gradient(to bottom, #331a1f, #2a0a14);
+            color: #cc3366;
+            border-color: #cc3366;
+            box-shadow: 0 0 8px rgba(204, 51, 102, 0.3);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 40px 0;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .pagination a, .pagination span {
+            padding: 8px 16px;
+            background: linear-gradient(to bottom, #222, #1a1a1a);
+            color: #cc9999;
+            text-decoration: none;
+            border-radius: 4px;
+            border: 1px solid #444;
+            transition: all 0.3s ease;
+        }
+        .pagination a:hover {
+            background: linear-gradient(to bottom, #331a1f, #2a0a14);
+            color: #cc3366;
+            border-color: #cc3366;
+            box-shadow: 0 0 8px rgba(204, 51, 102, 0.3);
+        }
+        .pagination .current {
+            background: linear-gradient(to bottom, #331a1f, #2a0a14);
+            color: #cc3366;
+            font-weight: bold;
+            border-color: #cc3366;
+        }
+        .pagination .disabled {
+            color: #666;
+            cursor: not-allowed;
+            background: linear-gradient(to bottom, #1a1a1a, #121212);
+        }
+        
+        .friendly-links {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 2px solid #cc3366;
+        }
+        .friendly-links .container {
+            margin-bottom: 30px;
+        }
+        .friendly-links .title {
+            font-size: 1.3rem;
+            color: #cc3366;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #444;
+            text-shadow: 0 0 6px rgba(204, 51, 102, 0.4);
+        }
+        .friendly-links ul {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+        .friendly-links li a {
+            display: block;
+            padding: 12px 15px;
+            background: linear-gradient(to bottom, #222, #1a1a1a);
+            border-radius: 6px;
+            color: #cc9999;
+            text-decoration: none;
+            font-size: 0.95rem;
+            border: 1px solid #444;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .friendly-links li a:hover {
+            background: linear-gradient(to bottom, #331a1f, #2a0a14);
+            color: #cc3366;
+            border-color: #cc3366;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        .footer {
+            text-align: center;
+            margin: 40px 0 20px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        .footer a {
+            color: #cc9999;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer a:hover {
+            color: #cc3366;
+            text-decoration: underline;
+        }
+        .software-img {
+            display: block;
+            margin: 0 auto 20px;
+            max-width: 150px;
+            border: 1px solid #cc3366;
+            box-shadow: 0 0 15px rgba(204, 51, 102, 0.5);
+        }
+    </style>
+    <script src="/yidong.js"></script>
+</head>
+<body>
+    <header>
+         <img src="/logo.jpg" alt="logo" class="software-img">   
+    </header>
+    
+    <div class="header">
+        <h1>文章列表</h1>
+        <p>探索我们的精选文章，发现知识与灵感</p>
+    </div>
+    
+    <div class="article-list">
+        
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="wja1azs0.html">爱不倾向但你便是导航</a></h2>
+        <div class="article-excerpt"><h1><b>爱不倾向但你便是导航</b></h1><p>一、一颗心的位置，只够藏一总体。两个愿望：你在身旁，在你身旁。有X同伙很了不起吗？那我也很了不起。如愿以偿。抱紧你的我，比国王富裕。你的脸不化装我却纵容爱上。爱是有回应的，每一次都是。你小子还不是被我拿下了。没甚么要讲的，我如今侥幸的头晕眼花...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E6%96%87%E6%A1%88%EF%BC%8C%E6%AF%8D%E4%BA%B2%E8%8A%82" class="tag">文案，母亲节</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="zs5xnc0po864.html">开辟航是甚么意思黄梗</a></h2>
+        <div class="article-excerpt"><h1><b>360搜索广告如何做？</b></h1><p>如何有效利用360搜索进行广告投放？以下是一些关键策略与技巧，助您在竞争激烈的市场中脱颖而出。</p><p><b>方法一：精准关键词定位</b></p><p>在360搜索引擎上投放广告，首要在于选择与您的品牌或产品高度相关的关键词。深入了解...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E6%90%9C%E7%B4%A2%E5%B9%BF%E5%91%8A%EF%BC%8C360%E6%B5%8F%E8%A7%88%E5%99%A8" class="tag">搜索广告，360浏览器</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="hd72749f.html">秘密通道入口发布页</a></h2>
+        <div class="article-excerpt">一、在游戏的霸者大厅中，追寻怪异通道的方式并不重大。玩家首先需要进入霸者大厅，找到一层的进口。接着，玩家需要退到一层的最边缘，这里有一个潜在的楼梯，经由这个楼梯可能进入怪异通道。怪异通道的进口并不显眼，个别潜在在一些不起眼的角落。玩家需要子细审核，追寻那些看似无关紧迫的墙壁或者地板。二、沿着通道往右...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E6%80%AA%E5%BC%82%E9%80%9A%E9%81%93%EF%BC%8C%E6%B8%B8%E6%88%8F%E6%94%BB%E7%95%A5" class="tag">怪异通道，游戏攻略</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="f3fn.html">糖心vlog入口观看完整免费版在线看</a></h2>
+        <div class="article-excerpt"><h1><b>糖心Vlog：探寻真相与潜在风险</b></h1><p>近期，关于糖心Vlog的讨论甚嚣尘上，许多用户对其访问问题、下载方式以及内容性质表示关注。本文将深入探讨糖心Vlog的方方面面，帮助读者全面了解其背后的真相与潜在风险。</p><h2>糖心Vlog访问问题：为何无法打开？</h2>...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E7%B3%96%E5%BF%83Vlog%EF%BC%8C%E8%A7%86%E9%A2%91" class="tag">糖心Vlog，视频</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="jan3epgdjbg.html">神马极速影院电影</a></h2>
+        <div class="article-excerpt"><h1>神马极速影院电影</h1><h2>本文目录一览：</h2>一、为甚么神马影院有的片子展现意外过错二、神马影院最新片子排行榜三、神马影院我不卡手版中文降级版神马影院手版流利无卡顿<h2 id='为什么神马影院有的电影显示意外错误'>为甚么神马影院有的片子展现意外过错</h2><p>神马影院无意...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E7%A5%9E%E9%A9%AC%E5%BD%B1%E9%99%A2%EF%BC%8C%E7%94%B5%E5%BD%B1" class="tag">神马影院，电影</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="jlry4w.html">秘密通道专属于秘密地址</a></h2>
+        <div class="article-excerpt"><h1>废品网站源码进口潜在通道有哪些措施?</h1><p>一、废品网站源码进口潜在通道并非原封不动，它可能接管多种怪异的方式妨碍潜在。其中一种罕有的措施是运用特殊的URL道路或者参数，偏远地开启通往源码的大门。经由对于网页地址妨碍子细审核以及合成，咱们或者应承以发现其中的玄机。这种潜在方式宛如数字...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E7%BD%91%E7%AB%99%E6%BA%90%E7%A0%81" class="tag">网站源码</a><a href="tags.html?tag=IP%E5%9C%B0%E5%9D%80" class="tag">IP地址</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="rn3n18.html">中文在线资源视频收费*博</a></h2>
+        <div class="article-excerpt"><h1>在线视频资源：收费*博现象与平台选择</h1><p>随着互联网的普及，在线视频平台成为人们休闲娱乐的重要方式。然而，一些不良商家利用用户对优质内容的需求，通过各种手段诱导用户进行收费*博。本文将深入探讨这一现象，并为用户提供安全可靠的在线视频平台选择建议。</p><h2>一、在线视频平台收费...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E5%9C%A8%E7%BA%BF%E8%A7%86%E9%A2%91%EF%BC%8C%E6%94%B6%E8%B4%B9*%E5%8D%9A" class="tag">在线视频，收费*博</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="6wwafzd.html">随着导航走下一句幽默句子</a></h2>
+        <div class="article-excerpt"><h1><b>路盲</b>奈何样造句</h1><p>一、幸好有他在身旁，否则我这个<b>路盲</b>早就不知道走到哪里去了。</p><p>二、小法原本是个<b>路盲</b>，法布雷加斯。旅客最不知足<b>路盲</b>差头司机0“<b>路盲</b>”也能轻松看亚运，亚运。南京熊孩子对于自家到学校规模内...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E5%B9%BD%E9%BB%98%EF%BC%8C%E5%AF%BC%E8%88%AA" class="tag">幽默，导航</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="7oi4db.html">开辟航是甚么意思</a></h2>
+        <div class="article-excerpt"><h1><b>开辟航的真正含义</b></h1><p>你是否曾经好奇过，"开辟航"这个词汇究竟蕴含着怎样的深意？它不仅仅是指在茫茫大海或广袤天空中指引方向，更象征着一种在未知领域探索的勇气和决心。在现代科技的语境下，开辟航更是与<b>GPS</b>、<b>导航技术</b>紧密相连，成为了我们日常生活...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=GPS%EF%BC%8C%E5%AF%BC%E8%88%AA" class="tag">GPS，导航</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="30uo1ls.html">神马极速影院片子</a></h2>
+        <div class="article-excerpt"><p>哪一个播放器可能看收费的大片APP？《影视大全高清版》新年到，影视大全为巨匠带来了全新的运用界面，独具一格的视听感触。搜罗超多国内外大片，不论是科幻、文学、侦探、或者是清静规范一应俱全，给你以极致享受。</p><p>收费的电视剧网站有：TV优品影视，高清云影视收费，bt4k影院也是一个免薯答薯...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E6%9E%81%E9%80%9F%E5%BD%B1%E9%99%A2%EF%BC%8C%E7%89%87%E5%AD%90" class="tag">极速影院，片子</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="4ifcu.html">青苹果收费在线看收费版在线看收费版</a></h2>
+        <div class="article-excerpt"><h1><b>青苹果*费在线看剧：高清*卡顿的影视体验</b></h1><p>你是否厌倦了到处寻找*费的影视资源，却总是被广告和卡顿困扰？想不想拥有一个资源丰富、画质清晰、播放流畅的在线观影平台？那么，<b>青苹果影院</b>或许能满足你的需求。</p><h2>本文目录</h2><ol>    <l...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E9%9D%92%E8%8B%B9%E6%9E%9C%E5%BD%B1%E9%99%A2" class="tag">青苹果影院</a><a href="tags.html?tag=%E7%94%B5%E5%BD%B1" class="tag">电影</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="66rw.html">举世资源官网globalsources</a></h2>
+        <div class="article-excerpt"><h1><b>举世资源网：链接全天下商业机缘</b></h1><p><b>一、国内外商业网站巡礼</b></p><p>在全球商业的舞台上，B2B平台扮演着至关重要的角色。除了广为人知的阿里巴巴外，还有许多垂直领域的专业平台值得关注。例如，xx制作网（*网）专注于*制造商，助力他们对接全球买家。EC（...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E4%B8%BE%E4%B8%96%E8%B5%84%E6%BA%90%EF%BC%8CB2B%E5%B9%B3%E5%8F%B0" class="tag">举世资源，B2B平台</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="rvtxh.html">有车主感慨导航救了我</a></h2>
+        <div class="article-excerpt"><h2id='车主访谈:理想ONE车主体验2021款唐DM'>车主访谈:理想ONE车主体验2021款唐DM</h2><p>一、此外，在都市路况下，事实ONE依靠纯电方式，能具备划一2021款唐DM的经济性以及能源性展现，可一旦上了高速，增程式的短板就底细毕露，由于只能靠机电驱动，车辆在持久高速行驶时...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E5%AF%BC%E8%88%AA%EF%BC%8C%E6%B1%BD%E8%BD%A6" class="tag">导航，汽车</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="ix38tk0h.html">资源站资源视频在线旁不雅 的重大介绍</a></h2>
+        <div class="article-excerpt">优酷是一个驰名的在线视频平台，提供了大批的收费电视剧供不雅众旁不雅。它不光要自家制作的优异剧，还涵盖了良多热门电视剧以及典型剧集。用户可能直接在优酷网站上浏览并抉择感兴趣的电视剧妨碍旁不雅。爱奇艺爱奇艺是另一个备受招待的视频网站，具备重大的电视剧库。它不光提供最新的热门电视剧，尚有良多典型老剧。优酷...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E5%9C%A8%E7%BA%BF%E8%A7%86%E9%A2%91" class="tag">在线视频</a><a href="tags.html?tag=%E8%B5%84%E6%BA%90%E7%AB%99" class="tag">资源站</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="bvkn3po.html">星辰影院2025年最全收费追剧大全</a></h2>
+        <div class="article-excerpt"><h1><b>星辰影院2025年最全收费追剧大全</b></h1><h2>本文目录一览：</h2>一、阿凡达2水之道高清版在哪看二、电视剧无间哪一个app可能看三、巨富归复电视剧收费旁不雅视频在哪里)四、甚么软件可能收费追剧不用vip<h2 id='阿凡达2水之道高清版在哪看'>阿凡达2水之道高清版...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E8%BF%BD%E5%89%A7%EF%BC%8C%E5%BD%B1%E8%A7%86APP" class="tag">追剧，影视APP</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="e9gh27c.html">怪异通道专属于怪异地址</a></h2>
+        <div class="article-excerpt"><h1><b>探秘传奇世界的怪异通道：位置与进入方式全攻略</b></h1><p>  在广袤的游戏世界中，总有一些神秘的区域吸引着玩家们前赴后继地探索。今天，我们将聚焦于经典游戏《传奇》中的怪异通道，揭秘其具体位置以及进入方法，助你在这片神秘的土地上畅游无阻。</p><h2>本文目录一览：</h2>...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E4%BC%A0%E5%A5%87%EF%BC%8C%E6%80%AA%E5%BC%82%E9%80%9A%E9%81%93" class="tag">传奇，怪异通道</a>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+
+    <div class="pagination">
+        
+    </div>
+    
+    <div class="friendly-links">
+        <div class="container">
+            <h3 class="title">生活点滴好用</h3>
+            <ul>
+                <li><a href="http://www.weizhang8.cn/" rel="nofollow" target="_blank">违章查询</a></li>
+                <li><a href="https://www.didiglobal.com/" rel="nofollow" target="_blank">滴滴打车</a></li>
+            </ul>
+        </div>
+        
+        <div class="container">
+            <h3 class="title">购物网址大全</h3>
+            <ul>
+                <li><a href="http://www.vip.com/" rel="nofollow" target="_blank">唯品会</a></li>
+                <li><a href="http://www.vmall.com/" rel="nofollow" target="_blank">华为商城</a></li>
+                <li><a href="http://www.tmall.com/" rel="nofollow" target="_blank">天猫商城</a></li>
+                <li><a href="https://www.amazon.cn/" rel="nofollow" target="_blank">亚马逊</a></li>
+                <li><a href="http://www.jd.com/" rel="nofollow" target="_blank">京东商城</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© 2023 小梦静态博客 | <a href="/sitemap.xml" target="_blank">网站地图</a></p>
+    </div>
+</body>
+</html>
