@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Language" content="zh-CN">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>软软兔游戏-秘密入口</title>
+<meta property="og:title" content="软软兔游戏">
+<meta property="og:description" content="<p>怪味小xx、仙气撩人、猪猪女孩、草莓味的风、仙女抱喵、野似暖以及猫、软三岁、软软兔、装兔子的信箱、九八年的风。软妹布丁、神都偏心、迷人小祖宗、樱桃不淘、你可爱的小祖宁、柠檬不萌、超会撒娇、朝三暮你、跳跳兔。</p><p>仙子老酒、樱桃醉、菠萝青裙底、草莓酸甜酱、大猫儿、舞台猫儿、云朵苦涩、小脾...">
+<meta property="og:url" content="https://mimirukouv1.github.io/wpdrg.html">
+<meta property="og:type" content="article">
+    <style>
+        body {
+            font-family: "Garamond", serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.8;
+            background: #121212 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" opacity="0.04"><path d="M0,0 L80,80 M80,0 L0,80" stroke="%23cc3366" stroke-width="2"/></svg>');
+            color: #e0e0e0;
+        }
+        h1 {
+            color: #cc3366;
+            margin-bottom: 15px;
+            text-align: center;
+            text-shadow: 0 0 8px rgba(204, 51, 102, 0.5);
+            border-bottom: 2px solid #cc3366;
+            padding-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .content {
+            color: #ccc;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid #444;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            border-radius: 5px;
+            position: relative;
+        }
+        .content:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: #cc3366;
+        }
+        .tags {
+            margin: 30px 0;
+            font-size: 0.9em;
+        }
+        .tags a {
+            background: linear-gradient(to bottom, #222, #1a1a1a);
+            color: #cc9999;
+            padding: 8px 15px;
+            text-decoration: none;
+            margin-right: 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 10px;
+            border: 1px solid #444;
+            transition: all 0.3s;
+        }
+        .tags a:hover {
+            background: linear-gradient(to bottom, #331a1f, #2a0a14);
+            color: #cc3366;
+            border: 1px solid #cc3366;
+            box-shadow: 0 0 10px rgba(204, 51, 102, 0.3);
+        }
+        
+        .recommend-articles {
+            margin: 40px 0;
+            padding: 20px;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 8px;
+            border: 1px solid #444;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            position: relative;
+        }
+        .recommend-articles:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, #cc3366, transparent);
+        }
+        .recommend-articles h3 {
+            color: #cc3366;
+            margin-bottom: 20px;
+            text-shadow: 0 0 6px rgba(204, 51, 102, 0.4);
+        }
+
+        .recommend-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .recommend-list li {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+        }
+        .recommend-list li:before {
+            content: "✠";
+            color: #cc3366;
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1.1em;
+        }
+        .recommend-list a {
+            color: #cc9999;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .recommend-list a:hover {
+            color: #cc3366;
+            text-decoration: underline;
+            text-shadow: 0 0 5px rgba(204, 51, 102, 0.5);
+        }
+        
+        .friendly-links {
+            margin-top: 50px;
+        }
+        .friendly-links .container {
+            margin-bottom: 30px;
+        }
+        .friendly-links .title {
+            font-size: 1.1em;
+            color: #cc3366;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #444;
+        }
+        .friendly-links ul {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        .friendly-links li a {
+            display: block;
+            padding: 10px 12px;
+            background: linear-gradient(to bottom, #222, #1a1a1a);
+            border-radius: 4px;
+            color: #cc9999;
+            text-decoration: none;
+            font-size: 0.9em;
+            border: 1px solid #444;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .friendly-links li a:hover {
+            background: linear-gradient(to bottom, #331a1f, #2a0a14);
+            color: #cc3366;
+            border: 1px solid #cc3366;
+            box-shadow: 0 0 8px rgba(204, 51, 102, 0.3);
+        }
+        
+        a[href$="xml"] {
+            display: block;
+            text-align: center;
+            margin-top: 40px;
+            color: #999;
+            font-size: 14px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        a[href$="xml"]:hover {
+            color: #cc3366;
+            text-decoration: underline;
+        }
+        .software-img {
+            display: block;
+            margin: 0 auto 20px;
+            max-width: 150px;
+            border: 1px solid #cc3366;
+            box-shadow: 0 0 15px rgba(204, 51, 102, 0.5);
+        }
+    </style>
+    <script src="/yidong.js"></script>
+</head>
+<body>
+    <header>
+         <img src="/logo.jpg" alt="logo" class="software-img">   
+    </header>
+
+    <h1>软软兔游戏</h1>
+
+    <div class="content">
+        <p><p>怪味小xx、仙气撩人、猪猪女孩、草莓味的风、仙女抱喵、野似暖以及猫、软三岁、软软兔、装兔子的信箱、九八年的风。软妹布丁、神都偏心、迷人小祖宗、樱桃不淘、你可爱的小祖宁、柠檬不萌、超会撒娇、朝三暮你、跳跳兔。</p><p>仙子老酒、樱桃醉、菠萝青裙底、草莓酸甜酱、大猫儿、舞台猫儿、云朵苦涩、小脾性、暖以及野猫。布丁软妹、妩媚小祖、樱桃不皮、可爱小祖、柠檬不艳、超级妖娆、早晚跳兔。配合小xx、迷人猪女、草莓风、仙女抱猫、野猫暖以及、软萌三岁、软萌兔子、兔子信箱、1998风。</p><p>从某种水平上来说，也很适宜b站的张扬用语，看起来与全部网站的气焰很适宜。咸鱼二号：b站自己便是一个二次元群集地，可能在这里激情冲浪的人，那末必建都是老二次元。哔哩哔哩：b站假如用中文说的话，着实便是哔哩哔哩，看起来是中规中矩的，而且颇为幽默不会给他人特意屹立的感应。</p><p>忙着可爱、甜心萌物酱、小仙女、捧猫xx。奶油昧拥抱、吃土xx、草莓伤风片、是我太萌了吗。暗黑xx、honey、迷人的我、海风xx、我酷我撩你。战征xx、私下陷溺、迷人反派、颈上鲜草莓。想我了吧、本仙女可爱、网瘾学妹。</p><p>一、松松总规画腾讯版介绍这款游戏由迪士尼正版授权，在游戏中你可能邂逅《冰雪奇缘》里的爱莎以及安娜、《寻梦周游记》的米格以及埃克托、《纵容植物城》里的朱迪以及尼克、《无敌破损王》的拉尔夫以及云妮等超人气动画明星，与它们一起相互顽耍，探究怪异缤纷的松松王国。</p><p>二、腾讯松松总规画民间版是一款专为安卓用户妄想的休闲益智手游，版本号为v2121。它以迪士尼授权，由腾讯署理刊行，以其配合的消除了谜题玩法以及可爱的卡通脚色排汇玩家。游戏特色搜罗消除了、修筑元素，以及与迪士尼典型脚色如《冰雪奇缘》的艾尔莎以及安娜等互动，提供丰硕的冒险体验。</p><p>三、同心组团大战松松反派、群集修筑质料为松松们建树侥幸他乡。</p><p>四、松松总规画是一款由迪士尼正版授权的连线消除了类手游，游戏中具备良多的能耐以及玩法有利于巨匠快捷的通关。下面就让小编来见告巨匠吧！游戏攻略玩游戏游戏中惟独连四只松松，就能过的金币。（留意：四只起，3只惟独患上分不金币）金币会凭证链的长度削减差距的松松赚取的款子能耐也差距。</p><p>幼儿园小班游戏教案篇1行动目的：违心退出切西瓜游戏，体验在游戏中飞跃、追赶的喜爱。能凭证指令做照应的措施。能自动退出游戏行动，并学会自我呵护。睁开幼儿手部措施的锐敏性。行动豫备：已经熟习西瓜，清晰西瓜的形态特色。吃过西瓜。</p><p>幼儿园小班游戏教案篇1行动目的经由种种游戏行动，向导幼儿对于1以及2的点子卡片妨碍实物糖果的立室。经由方式多样、幽默的操作，激发幼儿乐于退出行动的兴趣。哺育幼儿的立异脑子以及的斗果敢胆试验的肉体。魔难小同伙们的反映能耐，磨炼他们的总体能耐。</p><p>幼儿园小班游戏教案篇1手指五兄弟【行动目的】知道自己每一个手指的称谓，体验手指的锐敏性。变更手的种种措施，感触双手的熏染，对于自己的自摸兴趣。【行动历程】教师边念《手指五兄弟》（童谣）边做措施，向导孩子们便唱边做措施。</p><p>幼儿园小班游戏教案篇1游戏目的：让幼儿自动退出饰演游戏行动，在游戏中加深对于故事内容的清晰，并按被迫抉择自己喜爱的脚色。睁开幼儿的饰演能耐以及行动表白能耐。体验饰演游戏的相助欢喜。让幼儿能在总体眼前斗果敢胆饰演、展现自己。在行动中，让幼儿体验与过错共游戏的欢喜，违心与过错一起游戏。</p><p>幼儿园小班游戏教案篇1情景合成最后开始脚色游戏，大部份幼儿对于这种自主的、摆弄性强的游戏是很感兴趣的，可是游戏水平具备很大差距，是否上过托儿所，特色爽朗或者外向都是影响游戏水平的因素。每一每一会发现：当大部份孩子兴趣勃勃地“办家家”时，有一部份孩子却在课堂中晃荡或者抱着娃娃大有作为。</p><p>幼儿园小班游戏教案篇1行动目的探究球的多种玩法。哺育幼儿斗果敢胆退出游戏的激情，体验游戏的欢喜。睁开幼儿措施的调以及性、锐敏性、精确性。哺育幼儿的相助意见，学会勾通、推让。商议游戏纪律，体验相助的欢喜。教学重点、难点幼儿自主游戏，体验游戏的愉悦。</p><p>这便是我童年的玩具中我最爱的——长毛绒玩具兔。</p><p>玩具对于成年人清晰不外是孩子游戏的工具而已经，在咱们小时候具备一件玩具，咱们会感应这便是属于自己的私有品，自己的财富，自己可能部署。</p><p>④第六段：当“游戏是儿童最公平的行动，玩具是儿童的天使”这一别致迷信气息一旦吸进“我”的中毒很深的心灵，就发生了“表彰”感，就难忘那“肉体的虐杀”的一幕，心就“彷佛同时变了铅块，很重很重地堕上来了”。</p><p>我也无从补过，无从求患上情绪的轻松，因此愈加哀痛。被虐杀者甘受虐杀，毫无抗争，使虐杀者胡作非为，这正是旧秩序可能坚持的原因，以是使人哀痛、繁重。二课文中说：“游戏是儿童最公平的行动，玩具是儿童的天使。”你小时候也做过良多游戏，玩过良多玩具吧？选一个你最难忘的说给同砚听听。</p><p>一、抖音上兔子吃萝卜的游戏叫甚么？抖音很火的兔子游戏叫兔子复仇记兔子复仇记玩法攻略：在你玩游戏的每一个关卡中，小植物都必需吃完所有农作物能耐取患上三星，剩下一棵则二星，吃剩的农作物太多的话就无奈通关。</p><p>二、兔子吃萝卜的游戏叫《兔子复仇记》。《兔子复仇记》由LittleDetailsLLC开拓，是一款卡通气焰的休闲益智闯关类手机游戏。游戏故事讲的是爱吃胡萝卜的Calvin以及小过错们不断以来都调以及地生涯在森林里，服从某一天人类暴力地将它们的他乡化为了农场。</p><p>三、兔宝宝历险记。《兔宝宝历险记》是由KONAMI公司于1991年制作并刊行的一款横版过关游戏，主角是可爱的兔宝宝，经由吃萝卜加分，兔子在3位过错的帮手下，为营救过错而挑战重重关卡，最终取患了乐成，游戏有四个脚色可抉择，分说是兔子，狗狗，鸭子，猫，各有特色，各有本领。</p><p>四、抖音上的一款热门游戏叫做Patchmania兔子复仇记，其中一个小游戏叫做FatBunny。这款游戏需要玩家把握好光阴，经由按住屏幕的光阴长短来抉择小胖兔的跳跃距离。玩家将操作一只可爱的小胖兔，在一个不尽头的小山坡群中跳跃前行。这个游戏的天下颇为怪异，玩家需要冒险进入兔子的邪术天下。</p><p>五、抖音是当下热门的APP，良多用户对于其中的萝卜游戏颇感兴趣。那末，抖音里的萝卜游戏叫甚么？抖音上的小兔子吃萝卜又是甚么游戏？这着实是一款益智类游戏。</p></p>
+    </div>
+    
+    <div class="recommend-articles">
+        <h3>2篇随机内容推荐</h3>
+        <ul class="recommend-list">
+            <li><a href="po3u7s19t.html">一小央泽蒂法</a></li><li><a href="esk0.html">鬼畜瑶在不在w的照片</a></li>
+        </ul>
+    </div>
+    
+    <div class="friendly-links">
+        <div class="container">
+            <h4 class="title">生活点滴好用</h4>
+            <ul>
+                <li><a href="http://www.weizhang8.cn/" rel="nofollow" target="_blank">违章查询</a></li>
+                <li><a href="https://www.didiglobal.com/" rel="nofollow" target="_blank">滴滴打车</a></li>
+            </ul>
+        </div>
+        
+        <div class="container">
+            <h4 class="title">购物网址大全</h4>
+            <ul>
+                <li><a href="http://www.vip.com/" rel="nofollow" target="_blank">唯品会</a></li>
+                <li><a href="http://www.vmall.com/" rel="nofollow" target="_blank">华为商城</a></li>
+                <li><a href="http://www.tmall.com/" rel="nofollow" target="_blank">天猫商城</a></li>
+                <li><a href="https://www.amazon.cn/" rel="nofollow" target="_blank">亚马逊</a></li>
+                <li><a href="http://www.jd.com/" rel="nofollow" target="_blank">京东商城</a></li>
+            </ul>
+        </div>
+    </div>
+    <a href="/sitemap.xml" target="_blank">xml网站地图</a>
+</body>
+</html>

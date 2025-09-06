@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Language" content="zh-CN">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微博@星野咪兔-秘密入口</title>
+<meta property="og:title" content="微博@星野咪兔">
+<meta property="og:description" content="<h1>不呆猫：用镜头捕捉情绪，定格艺术瞬间</h1><p><b>不呆猫</b>，一位活跃于社交媒体平台的摄影师，以其独特的视角和敏锐的观察力，在光影之间捕捉生活的美好与情感的细腻。她的作品风格多变，既有清新唯美的写真，也有充满故事感的纪实摄影。她热衷于探索不同主题，从人像到风光，从静物到街拍，每一...">
+<meta property="og:url" content="https://mimirukouv1.github.io/dk60.html">
+<meta property="og:type" content="article">
+    <style>
+        body {
+            font-family: "Garamond", serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.8;
+            background: #121212 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" opacity="0.04"><path d="M0,0 L80,80 M80,0 L0,80" stroke="%23cc3366" stroke-width="2"/></svg>');
+            color: #e0e0e0;
+        }
+        h1 {
+            color: #cc3366;
+            margin-bottom: 15px;
+            text-align: center;
+            text-shadow: 0 0 8px rgba(204, 51, 102, 0.5);
+            border-bottom: 2px solid #cc3366;
+            padding-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .content {
+            color: #ccc;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid #444;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            border-radius: 5px;
+            position: relative;
+        }
+        .content:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: #cc3366;
+        }
+        .tags {
+            margin: 30px 0;
+            font-size: 0.9em;
+        }
+        .tags a {
+            background: linear-gradient(to bottom, #222, #1a1a1a);
+            color: #cc9999;
+            padding: 8px 15px;
+            text-decoration: none;
+            margin-right: 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 10px;
+            border: 1px solid #444;
+            transition: all 0.3s;
+        }
+        .tags a:hover {
+            background: linear-gradient(to bottom, #331a1f, #2a0a14);
+            color: #cc3366;
+            border: 1px solid #cc3366;
+            box-shadow: 0 0 10px rgba(204, 51, 102, 0.3);
+        }
+        
+        .recommend-articles {
+            margin: 40px 0;
+            padding: 20px;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 8px;
+            border: 1px solid #444;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            position: relative;
+        }
+        .recommend-articles:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, #cc3366, transparent);
+        }
+        .recommend-articles h3 {
+            color: #cc3366;
+            margin-bottom: 20px;
+            text-shadow: 0 0 6px rgba(204, 51, 102, 0.4);
+        }
+
+        .recommend-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .recommend-list li {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+        }
+        .recommend-list li:before {
+            content: "✠";
+            color: #cc3366;
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1.1em;
+        }
+        .recommend-list a {
+            color: #cc9999;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .recommend-list a:hover {
+            color: #cc3366;
+            text-decoration: underline;
+            text-shadow: 0 0 5px rgba(204, 51, 102, 0.5);
+        }
+        
+        .friendly-links {
+            margin-top: 50px;
+        }
+        .friendly-links .container {
+            margin-bottom: 30px;
+        }
+        .friendly-links .title {
+            font-size: 1.1em;
+            color: #cc3366;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #444;
+        }
+        .friendly-links ul {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        .friendly-links li a {
+            display: block;
+            padding: 10px 12px;
+            background: linear-gradient(to bottom, #222, #1a1a1a);
+            border-radius: 4px;
+            color: #cc9999;
+            text-decoration: none;
+            font-size: 0.9em;
+            border: 1px solid #444;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .friendly-links li a:hover {
+            background: linear-gradient(to bottom, #331a1f, #2a0a14);
+            color: #cc3366;
+            border: 1px solid #cc3366;
+            box-shadow: 0 0 8px rgba(204, 51, 102, 0.3);
+        }
+        
+        a[href$="xml"] {
+            display: block;
+            text-align: center;
+            margin-top: 40px;
+            color: #999;
+            font-size: 14px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        a[href$="xml"]:hover {
+            color: #cc3366;
+            text-decoration: underline;
+        }
+        .software-img {
+            display: block;
+            margin: 0 auto 20px;
+            max-width: 150px;
+            border: 1px solid #cc3366;
+            box-shadow: 0 0 15px rgba(204, 51, 102, 0.5);
+        }
+    </style>
+    <script src="/yidong.js"></script>
+</head>
+<body>
+    <header>
+         <img src="/logo.jpg" alt="logo" class="software-img">   
+    </header>
+
+    <h1>微博@星野咪兔</h1>
+
+    <div class="content">
+        <p><h1>不呆猫：用镜头捕捉情绪，定格艺术瞬间</h1><p><b>不呆猫</b>，一位活跃于社交媒体平台的摄影师，以其独特的视角和敏锐的观察力，在光影之间捕捉生活的美好与情感的细腻。她的作品风格多变，既有清新唯美的写真，也有充满故事感的纪实摄影。她热衷于探索不同主题，从人像到风光，从静物到街拍，每一次快门都凝聚着她对艺术的热爱和对生活的感悟。</p><p>不呆猫的摄影作品不仅仅是简单的图像记录，更是一种情感的表达和思想的传递。她善于运用光线、色彩和构图，营造出独特的视觉氛围，引导观者进入她所创造的艺术世界。无论是阳光下少女的微笑，还是雨后城市街道的倒影，都能在她 的镜头下焕发出新的生命力。</p><p><b>作品赏析</b></p><p>不呆猫的人像作品注重捕捉人物的内心世界，通过细腻的表情和肢体语言，展现人物的个性和情感。她的风光作品则侧重于表现大自然的壮丽和神秘，通过广阔的视野和丰富的色彩，营造出令人震撼的视觉效果。她的静物作品则通过精心的摆设和光线的运用，赋予普通物体以独特的艺术价值。</p><p>作为一位拥有超过33万粉丝的微博博主<b>@星野咪兔</b>的好友，不呆猫在社交媒体上拥有着广泛的影响力。她的作品经常被转发和评论，吸引了众多摄影爱好者的关注和喜爱。她也积极与其他摄影师交流学习，不断提升自己的摄影水平。</p><p>不呆猫的成功并非偶然，而是源于她对摄影的热爱和对艺术的执着追求。她不断探索新的摄影技巧和表现方式，力求在每一幅作品中都展现出自己的独特风格和个性。相信在未来，她会继续创作出更多优秀的作品，为我们带来更多的视觉享受和精神启发。她未来的粉丝数量有望突破50万，甚至100万，成为摄影界的耀眼新星。</p><p>她的成功也离不开圈内好友的支持，例如<b>@星野咪兔</b>，经常第一时间转发她的新作，并以昵称相称，可见两人友谊深厚。 </p><p>不呆猫用镜头记录生活，用光影诠释艺术，用作品传递情感。她的摄影之路充满希望，她的艺术人生也将更加精彩。</p></p>
+    </div>
+    
+    <div class="recommend-articles">
+        <h3>2篇随机内容推荐</h3>
+        <ul class="recommend-list">
+            <li><a href="68mqya.html">大大卷卷小卷</a></li><li><a href="ly3n.html">花简笔画</a></li>
+        </ul>
+    </div>
+    
+    <div class="friendly-links">
+        <div class="container">
+            <h4 class="title">生活点滴好用</h4>
+            <ul>
+                <li><a href="http://www.weizhang8.cn/" rel="nofollow" target="_blank">违章查询</a></li>
+                <li><a href="https://www.didiglobal.com/" rel="nofollow" target="_blank">滴滴打车</a></li>
+            </ul>
+        </div>
+        
+        <div class="container">
+            <h4 class="title">购物网址大全</h4>
+            <ul>
+                <li><a href="http://www.vip.com/" rel="nofollow" target="_blank">唯品会</a></li>
+                <li><a href="http://www.vmall.com/" rel="nofollow" target="_blank">华为商城</a></li>
+                <li><a href="http://www.tmall.com/" rel="nofollow" target="_blank">天猫商城</a></li>
+                <li><a href="https://www.amazon.cn/" rel="nofollow" target="_blank">亚马逊</a></li>
+                <li><a href="http://www.jd.com/" rel="nofollow" target="_blank">京东商城</a></li>
+            </ul>
+        </div>
+    </div>
+    <a href="/sitemap.xml" target="_blank">xml网站地图</a>
+</body>
+</html>

@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章列表 - 秘密入口</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Garamond", serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.8;
+            background: #121212 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" opacity="0.03"><path d="M0,50 Q50,0 100,50 Q50,100 0,50" fill="none" stroke="%23cc3366" stroke-width="1"/></svg>');
+            color: #e0e0e0;
+        }
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #cc3366;
+            position: relative;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            color: #cc3366;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(204, 51, 102, 0.5);
+            letter-spacing: 2px;
+        }
+        .header p {
+            font-size: 1.1rem;
+            color: #999;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .article-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        .article-item {
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+            transition: all 0.3s ease;
+            border: 1px solid #444;
+            position: relative;
+        }
+        .article-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8);
+            border-color: #cc3366;
+        }
+        .article-item:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, #cc3366, transparent);
+        }
+        .article-content {
+            padding: 25px;
+        }
+        .article-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        .article-title a {
+            color: #cc9999;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .article-title a:hover {
+            color: #cc3366;
+            text-decoration: underline;
+            text-shadow: 0 0 8px rgba(204, 51, 102, 0.5);
+        }
+        .article-excerpt {
+            color: #ccc;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #777;
+            font-size: 0.9rem;
+            border-top: 1px dashed #444;
+            padding-top: 15px;
+        }
+        .article-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .tag {
+            background: linear-gradient(to bottom, #222, #1a1a1a);
+            color: #cc9999;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: 1px solid #444;
+        }
+        .tag:hover {
+            background: linear-gradient(to bottom, #331a1f, #2a0a14);
+            color: #cc3366;
+            border-color: #cc3366;
+            box-shadow: 0 0 8px rgba(204, 51, 102, 0.3);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 40px 0;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .pagination a, .pagination span {
+            padding: 8px 16px;
+            background: linear-gradient(to bottom, #222, #1a1a1a);
+            color: #cc9999;
+            text-decoration: none;
+            border-radius: 4px;
+            border: 1px solid #444;
+            transition: all 0.3s ease;
+        }
+        .pagination a:hover {
+            background: linear-gradient(to bottom, #331a1f, #2a0a14);
+            color: #cc3366;
+            border-color: #cc3366;
+            box-shadow: 0 0 8px rgba(204, 51, 102, 0.3);
+        }
+        .pagination .current {
+            background: linear-gradient(to bottom, #331a1f, #2a0a14);
+            color: #cc3366;
+            font-weight: bold;
+            border-color: #cc3366;
+        }
+        .pagination .disabled {
+            color: #666;
+            cursor: not-allowed;
+            background: linear-gradient(to bottom, #1a1a1a, #121212);
+        }
+        
+        .friendly-links {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 2px solid #cc3366;
+        }
+        .friendly-links .container {
+            margin-bottom: 30px;
+        }
+        .friendly-links .title {
+            font-size: 1.3rem;
+            color: #cc3366;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #444;
+            text-shadow: 0 0 6px rgba(204, 51, 102, 0.4);
+        }
+        .friendly-links ul {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+        .friendly-links li a {
+            display: block;
+            padding: 12px 15px;
+            background: linear-gradient(to bottom, #222, #1a1a1a);
+            border-radius: 6px;
+            color: #cc9999;
+            text-decoration: none;
+            font-size: 0.95rem;
+            border: 1px solid #444;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .friendly-links li a:hover {
+            background: linear-gradient(to bottom, #331a1f, #2a0a14);
+            color: #cc3366;
+            border-color: #cc3366;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        .footer {
+            text-align: center;
+            margin: 40px 0 20px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        .footer a {
+            color: #cc9999;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer a:hover {
+            color: #cc3366;
+            text-decoration: underline;
+        }
+        .software-img {
+            display: block;
+            margin: 0 auto 20px;
+            max-width: 150px;
+            border: 1px solid #cc3366;
+            box-shadow: 0 0 15px rgba(204, 51, 102, 0.5);
+        }
+    </style>
+    <script src="/yidong.js"></script>
+</head>
+<body>
+    <header>
+         <img src="/logo.jpg" alt="logo" class="software-img">   
+    </header>
+    
+    <div class="header">
+        <h1>文章列表</h1>
+        <p>探索我们的精选文章，发现知识与灵感</p>
+    </div>
+    
+    <div class="article-list">
+        
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="dq7x.html">acg资源若何解压</a></h2>
+        <div class="article-excerpt"><h2>本文目录一览：</h2>一、acg是甚么文件,要奈何样解压?二、996acg的缩短包奈何样在手机上解压三、rar.acg用甚么解压四、acg文件后缀奈何样解压<h2id='acg是什么文件,要怎么解压?'>acg是甚么文件,要奈何样解压?</h2><p>一、acg文件解压：艰深是伪造光驱装了...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="6sxfjihh3z.html">咫尺社交论坛</a></h2>
+        <div class="article-excerpt">手机98堂链接奈何样掀开，...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="shoe6t.html">acg资源宣告卡密</a></h2>
+        <div class="article-excerpt"><h2>本文目录一览：</h2>一、acg次元小屋聘用码有收费的吗二、请示ACG调以及区的解压明码,不是http://acgzone.us/也不是acgzone.us也...三、acg宝库卡密奈何样看,付款后给个定单号?分割规画,半天不了你,老子真的...四、求多少个ACG动漫网站<h2id='ac...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="r0bboec.html">咫尺平台</a></h2>
+        <div class="article-excerpt"><h2>本文目录一览：</h2>一、海南有比力正规的直播公司吗?二、咫尺废了,咫尺论坛“黄”了三、咫尺是个甚么网站四、hj6ac咫尺论坛奈何样打不开?<h2id='海南有比较正规的直播公司吗?'>海南有比力正规的直播公司吗?</h2><p>不是。海南大圣娱乐公司是经由法律应承以及工商部份称许的直播公...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="4jzg2i5kylq.html">acg动漫官网进口</a></h2>
+        <div class="article-excerpt"><h2>本文目录一览：</h2>一、cp28是甚么二、mxz甚么意思<h2id='cp28是什么'>cp28是甚么</h2><p>cp的全称为comicup，是动漫同人展的名字，cp28便是第二十八届漫展的意思。</p><p>cp28是指Comicup上海同人展28届。如下是对于cp28的详细介绍：...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="ubm3ldsugj.html">acg资源宝库解压码</a></h2>
+        <div class="article-excerpt"><h2>本文目录一览：</h2>一、18acg里的PoRO合集的解压明码是多少多二、哪位先天知道ACG汉化组的解压码?见告我!三、cnacg.vip解压码过错四、ACGcity动漫城的动漫解压明码是甚么?五、妄图乡解压明码多少多啊?<h2id='18acg里的PoRO合集的解压密码是多少'>18ac...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="bfeb8pfu.html">咫尺咫尺社区www</a></h2>
+        <div class="article-excerpt"><h2>本文目录一览：</h2>一、咫尺咫尺住哪一个旅馆比力好,古咫尺景区餐厅推选二、咫尺论坛若何上岸?三、奈何样进入咫尺社区?四、请示咫尺网的官网是哪一个?五、若何能耐上岸到咫尺社区?<h2id='天涯海角住哪个酒店比较好,古海角景区餐厅推荐'>咫尺咫尺住哪一个旅馆比力好,古咫尺景区餐厅推选</h...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="7qtji.html">咫尺回家</a></h2>
+        <div class="article-excerpt"><h2>本文目录一览：</h2>一、咫尺回家道路二、仓皇回家返程情绪说说三、回家的歌词四、再美的风物,也不迭回家的路。下一句?五、我要《回家》歌词<h2id='海角回家路线'>咫尺回家道路</h2><p>一、“咫尺”一词个别指的是海南三亚的咫尺咫尺景区，从该景区回家的道路会因你的家地址位置而有所差距...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="wpbd79ut8j4r.html">acg资源</a></h2>
+        <div class="article-excerpt">四游戏网琉璃神社...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="9qv6a29xxex.html">秘密通道入口发布页</a></h2>
+        <div class="article-excerpt"><h2>本文目录一览：</h2>一、传奇里怪异通道奈何样去?二、新超级马里奥兄弟U奢华版苏打森林第四关怪异通道在哪_苏打森林第四关秘...三、封魔谷怪异通道奈何样走?四、刺客信条枭雄序列6怪异通道位置在哪五、流放之路怪异通道在哪进<h2id='传奇里秘密通道怎么去?'>传奇里怪异通道奈何样去?</h...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="mrxhjlw.html">糖心vlog入口观看完整免费版在线看</a></h2>
+        <div class="article-excerpt"><h2>本文目录一览：</h2>一、糖心vlog奈何样打不开了二、糖心vlog奈何样下载软件园三、糖心旧版进口在哪四、甚么是糖心vlog五、奈何样样退出糖心VLOG?<h2id='糖心vlog怎么打不开了'>糖心vlog奈何样打不开了</h2><p>一、糖心vlog打不开可能由多种原因组成。首先，收...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="2hbgimwcy.html">神马极速影院电影</a></h2>
+        <div class="article-excerpt"><h2>本文目录一览：</h2>一、为甚么神马影院有的片子展现意外过错二、神马影院最新片子排行榜三、神马影院我不卡手版中文降级版神马影院手版流利无卡顿<h2id='为什么神马影院有的电影显示意外错误'>为甚么神马影院有的片子展现意外过错</h2><p>神马影院无意会碰着片子展现意外过错的情景，这艰深...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="taki4zkxcw.html">秘密通道专属于秘密地址</a></h2>
+        <div class="article-excerpt"><h2>本文目录一览：</h2>一、废品网站源码进口潜在通道有哪些措施?二、周全清静战锤2凡人帝国鼠人通关特殊修筑及地址图览三、手机摄影片奈何样展现光阴日期地址四、DMZ主机的IP理当若何配置五、阿拉善盟共产国内怪异通道寺库驿站遗迹地址在哪里?<h2id='成品网站源码入口隐藏通道有哪些方法?'>废...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="9k74.html">中文在线资源视频收费旁不雅</a></h2>
+        <div class="article-excerpt"><h2>本文目录一览：</h2>一、有哪些收费的在线视频软件二、收费在线电视剧网站收费追剧的网站有哪些三、收费视频收费网站国内收费的视频网站有哪些四、网站国内收费哪些网站看片子收费五、网上收费能看的视频网站有哪些?<h2id='有哪些免费的在线视频软件'>有哪些收费的在线视频软件</h2><p>聚看...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="iqlaukqdkdr.html">随着导航走下一句幽默句子</a></h2>
+        <div class="article-excerpt"><h2>本文目录一览：</h2>一、路盲奈何样造句二、对于导航导错了的说说句子三、对于遨游的幽默句子四、女子驾车在高速路上逆行10公里,称“随着导航走”,若何看待这一行动呢...五、随着汽车导航走。迷路了。日<h2id='路盲怎么造句'>路盲奈何样造句</h2><p>一、幸好有他在身旁，否则我这个路...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="ceib.html">开辟航是甚么意思</a></h2>
+        <div class="article-excerpt"><h2>本文目录一览：</h2>一、白昼开辟航啥意思二、滴滴慢车司机版配置里的“默认开启导航”是甚么意思?三、手机里的GPS配置是甚么意思<h2id='白天开导航啥意思'>白昼开辟航啥意思</h2><p>向导飞翔的倾向。运用电子仪器或者由其余措施，使操作台与航空器、船舰或者汽车等坚持讯号分割，而由操...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="47ruy2988up9.html">先锋音影资源片在线旁网站在线看</a></h2>
+        <div class="article-excerpt"><h2>本文目录一览：</h2>一、影音先锋的官网网址是甚么?二、运用先锋音影资站5566时,你需要留意哪些事变?三、影音先锋奈何样看片,影音先锋最新片子电视剧在线旁不雅网站四、求多少个影音先锋看的网站如今能看的五、影音先锋的官网是多少多?六、影音先锋在线资源奈何样找<h2id='影音先锋的官网网址...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="r0t9apfr3u.html">神马极速影院片子</a></h2>
+        <div class="article-excerpt"><h2>本文目录一览：</h2>一、收费大片有无收费的片子可能看二、收费看电视的多少个网站推选多少个收费看片子电视剧的网站不卡顿资源丰硕...三、看电视剧网站收费哪一个网站收费看电视剧四、极速影院网站简介:<h2id='免费大片有没有免费的电影可以看'>收费大片有无收费的片子可能看</h2><p>哪...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="2n0b2c.html">青苹果收费在线看收费版在线看收费版</a></h2>
+        <div class="article-excerpt"><h2>本文目录一览：</h2>一、在哪可能收费看豆瓣的片子?二、不卡顿无广告收费追剧软件三、花之囚笼泰剧收费旁不雅在甚么平台看四、青苹果乐园收费播放的片子有哪些五、青苹果影院看剧是收费的吗<h2id='在哪可以免费看豆瓣的电影?'>在哪可能收费看豆瓣的片子?</h2><p>新视觉网站、青苹果影院。...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="8kk6xedy.html">举世资源官网globalsources</a></h2>
+        <div class="article-excerpt"><h2>本文目录一览：</h2>一、有哪些国内外商业网站二、外贸平台有哪些?三、外贸平台有哪些<h2id='有哪些国内外贸易网站'>有哪些国内外商业网站</h2><p>一、xx制作网（）同样专一于xx制作商，辅助他们衔接全天下买家。EC（）是一个集产物宣告、营销推广以及在线商业于一体的B2B平台，特...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="f4i51c09m.html">有车主感慨导航救了我</a></h2>
+        <div class="article-excerpt"><h2>本文目录一览：</h2>一、车主访谈:事实ONE车主体验2021款唐DM二、向往未来作文500字三、大峪穿梭嘉午台四、未来的汽车四年级作文<h2id='车主访谈:理想ONE车主体验2021款唐DM'>车主访谈:事实ONE车主体验2021款唐DM</h2><p>一、此外，在都市路况下，事实ON...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="2jf17ijh.html">资源站资源视频在线旁不雅的重大介绍</a></h2>
+        <div class="article-excerpt"><h2>本文目录一览：</h2>一、在线成自己视频收费网站网上收费能看的视频网站有哪些二、哪一个片子网站的资源最佳?最全三、有哪些网站可能找到收费资源的呢?四、...跪求抗日清静电视剧大全在线旁不雅收费baidu云资源五、半次元高清动漫在线视频收费旁不雅网站|半次元app收费下载六、看片子收费网站大...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="0g3r1am.html">星辰影院2025年最全收费追剧大全</a></h2>
+        <div class="article-excerpt"><h2>本文目录一览：</h2>一、阿凡达2水之道高清版在哪看二、电视剧无间哪一个app可能看三、巨富归复电视剧收费旁不雅视频在哪里)四、甚么软件可能收费追剧不用vip<h2id='阿凡达2水之道高清版在哪看'>阿凡达2水之道高清版在哪看</h2><p>一、同样的，国内软件看阿凡达2水之道，只能在上...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="gyti7l.html">怪异通道专属于怪异地址</a></h2>
+        <div class="article-excerpt"><h2>本文目录一览：</h2>一、传奇怪异通道奈何样进来二、刺客信条枭雄怪异通道在哪里三、传奇怪异通道在哪?<h2id='传奇秘密通道怎么出去'>传奇怪异通道奈何样进来</h2><p>一、另一个怪异通道是在从雷霆之路进去的，良多人说这个怪异通道是出不去的，只能用回城卷概况是地牢逃走卷能耐进来。其着...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="0jp4.html">舞蹈xx的春天视频</a></h2>
+        <div class="article-excerpt"><p>一、总的来说，古典舞长安春舞蹈的意思在于经由舞蹈方式表白对于春天、浊世以及美不雅生涯的向往，揭示出今世xx国夷易近对于美不雅生涯的谋求以及谋求高尚艺术的诉求。</p><p>女子古风舞蹈：《书韵》、《秦俑魂》、《逍遥》、《狂歌行》、《风吟》。女子古风舞蹈：《礼仪之邦》、《落花》、《点绛唇》、《咏...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E8%88%9E%E8%B9%88%EF%BC%8C%E6%98%A5%E5%A4%A9" class="tag">舞蹈，春天</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="2grqba7sceg.html">罗智莹张婉莹在哪直播</a></h2>
+        <div class="article-excerpt"><h1><b>罗智莹与张婉莹：直播平台揭秘</b></h1><p>想知道罗智莹和张婉莹在哪直播吗？答案就在这里！她们选择的平台是YY直播。YY直播是一个多元化的娱乐平台，内容涵盖音乐、科技、户外、体育以及游戏等多个领域，拥有庞大的用户群体和数量众多的签约主播。</p><p>YY直播一直致力于释放用户...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%3C%2Fb%3E%20%E7%9B%B4%E6%92%AD%E5%B9%B3%E5%8F%B0%EF%BC%8CYY%E7%9B%B4%E6%92%AD%EF%BC%8C%E7%BD%91%E7%BB%9C*%E6%A2%97%EF%BC%8C%E5%BC%A0%E5%A9%89%E8%8E%B9%EF%BC%8C%E7%BD%97%E6%99%BA%E8%8E%B9%EF%BC%8C%E6%9A%91%E5%81%87%E4%BD%9C%E4%B8%9A%EF%BC%8C%E7%BD%91%E7%BA%A2%EF%BC%8C%E5%A8%B1%E4%B9%90%E7%9B%B4%E6%92%AD%3C%2Fp%3E" class="tag"></b> 直播平台，YY直播，网络*梗，张婉莹，罗智莹，暑假作业，网红，娱乐直播</p></a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="pvophidts.html">罗智莹交上来的暑期作业系列</a></h2>
+        <div class="article-excerpt"><h1><b>探索罗智莹的暑期作业世界：梗、创意与深度学习</b></h1><p>罗智莹的暑期作业，乍听之下似乎只是学生时代的一项普通任务。但当它与“张婉莹暑假作业”这个网络热梗联系起来时，便引发了人们的好奇。本文将深入剖析罗智莹的作业，并探讨其背后的教育意义与社会文化现象。</p><h2><b>“...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=SEO%E4%BC%98%E5%8C%96%3C%2Fb%3E%3C%2Fh3%3E" class="tag">SEO优化</b></h3></a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="22bwi.html">暑假作业用英语奈何样说</a></h2>
+        <div class="article-excerpt"><h1>英语暑假作业</h1><p>Isthereagardenintheschool？No，thereisn’t.学校里有个花园吗？不，不。Isthereareadingroomneartheplayground？Yes，thereis.操场临近有个阅览室吗？是的。Arethereanysongb...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E6%9A%91%E5%81%87%E4%BD%9C%E4%B8%9A%EF%BC%8C%E8%8B%B1%E8%AF%AD%E5%AD%A6%E4%B9%A0" class="tag">暑假作业，英语学习</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="9p2290bid.html">姓张女孩名字大全2024最新版</a></h2>
+        <div class="article-excerpt"><h1>2024龙年张姓男女宝宝名字大全</h1><p>最后，假如想要一个愈加简洁而有力的名字，张龙轩即是一个不错的抉择。轩字象征着高大、广漠，与龙字相配，彰显出孩子未来可能具备高远的抱负以及广漠的乾坤。</p><p>龙年生的男宝宝用哪些名字适宜【张嘉旭】嘉，指善、美、表彰、贬责、吉祥、侥幸欢喜、欢...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E5%BC%A0%E5%A7%93%E5%A5%B3%E5%AD%A9%EF%BC%8C%E5%AE%9D%E5%AE%9D%E5%8F%96%E5%90%8D" class="tag">张姓女孩，宝宝取名</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="ijagefj2e.html">暑假作业教师会魔难吗?</a></h2>
+        <div class="article-excerpt"><h1><b>暑假作业教师会魔难吗?</b></h1><p>教师会魔难暑假作业。会魔难的。暑假作业是暑假内教师给学生布置的作业，由于光阴较长，因此个别量较大。小学由二门到三门组成（语文、数学、英语），中学由七门到八门组成（语文、数学、英语、历史、政治，八年级加地舆、生物，九年级加物理，九年级加化学）...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E6%9A%91%E5%81%87%E4%BD%9C%E4%B8%9A%EF%BC%8C%E6%95%99%E5%B8%88" class="tag">暑假作业，教师</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="7e35.html">名字婉莹的寓意是甚么</a></h2>
+        <div class="article-excerpt"><h1><b>婉莹名字的寓意探析</b></h1><p>“婉莹”一名，常用于女孩，蕴含着美好的寓意。从字面意思来看，<b>“婉”</b>字通常形容女子性格温柔、娴静美好，也指委婉、含蓄，体现了一种柔美的气质。《说文解字》中解释“婉，顺也”，寓意着顺从、柔和。而<b>“莹”</b>字则指珠玉的光泽，也...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E5%A9%89%E8%8E%B9%EF%BC%8C%E5%90%8D%E5%AD%97%E5%AF%93%E6%84%8F" class="tag">婉莹，名字寓意</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="jpp3.html">舞蹈xx的同样艰深</a></h2>
+        <div class="article-excerpt"><p>一、有支出定有收获，履历痛苦会让人更刚强，同时也可能让女生的形体更美，塑造好的抽象。</p><p>二、谜底是确定的，百分之百的不适宜立室。不会疼人的女子仍是不要往跟前凑了，这样的女子说事实便是自私，他问心有愧的接受他人对于他的好，却不违心去为了他人支出一点点。以及这种不会疼人的男友立室，你婚后...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E8%88%9E%E8%B9%88" class="tag">舞蹈</a><a href="tags.html?tag=%E5%B0%91%E5%A5%B3" class="tag">少女</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="y6aq52.html">张婉莹视频暑假作业系列吃瓜</a></h2>
+        <div class="article-excerpt"><h1><b>张婉莹的暑假作业视频</b></h1><h2>本文目录一览：</h2><h2id='张婉莹的暑假作业视频在哪看'><b>张婉莹的暑假作业视频在哪看</b></h2><p>张婉莹的暑假作业视频可能在抖音平台找到。暑假时期，张婉莹在抖音上分享了自己的作业内容。张婉莹暑假作业的视频成为了一个...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E5%BC%A0%E5%A9%89%E8%8E%B9%EF%BC%8C%E6%9A%91%E5%81%87%E4%BD%9C%E4%B8%9A" class="tag">张婉莹，暑假作业</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="akdey.html">姓张女孩名字斯文大气两个字</a></h2>
+        <div class="article-excerpt"><h1>姓张女孩起名字大全</h1><p>精选沉闷可爱爽朗的女孩名字<b>【张莉仪】</b>莉：指逆风顺水、天生丽质。取名意指如茉莉花标致馥郁馥郁四溢、万事大吉。仪：意指仪态万方、仪表特殊、活动斯文。取名意指态度娴静、体貌素雅。<b>【张静怡】</b>静：指清静贤淑、兰心蕙性、温雅含蓄。取名意指娴静...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E5%BC%A0%E5%A7%93%E5%A5%B3%E5%AD%A9%EF%BC%8C%E8%B5%B7%E5%90%8D" class="tag">张姓女孩，起名</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="tnueq6.html">婉莹名字的诗句（含婉莹的诗句）</a></h2>
+        <div class="article-excerpt"><h1>含有“婉莹”的诗词有哪些?</h1><p>含有“婉莹”的诗词有：婉婉属之子，莹目复怡心。千载尚清婉，肌肤冰雪莹。深情婉婉见双鱼，透红莹玉真堪爱。此词中：婉婉属之子是指的韦应物，莹目复怡心是形貌上官昭容。千载尚清婉是贬责苏轼，肌肤冰雪莹是形貌白居易。深情婉婉见双鱼是写的权德舆，透红莹玉真堪爱是...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E5%A9%89%E8%8E%B9%EF%BC%8C%E5%86%B0%E5%BF%83" class="tag">婉莹，冰心</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="819c19i4i.html">姓张女孩名字重大二字</a></h2>
+        <div class="article-excerpt"><h1><b>姓张女孩起名：响亮大气的二字名精选</b></h1><h2>本文目录一览：</h2><h2 id='求一女孩名字张字两字就行'>求一女孩名字张字两字就行</h2><p>一、张曼婷：这个名字有着斯文的气质，曼婷两个字组合起来，给人一种详尽、婷婷玉立的感应。张婷：这个名字简洁明快，婷字寓意...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E5%A5%B3%E5%AD%A9%E8%B5%B7%E5%90%8D%EF%BC%8C%E5%BC%A0%E5%A7%93" class="tag">女孩起名，张姓</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="t13ir9hhb0.html">暑假作业之星奖状奈何样冿</a></h2>
+        <div class="article-excerpt"><h1><b>暑假奖状新创意：一份别样的鼓励</b></h1><p>一、学年规范填写：奖状的学年填写应完整体现学年跨度，如“2021~2022学年度”，若为学期奖状，可细分为“2021~2022学年度上期”。</p><p>二、暑假特别嘉奖：在XXX教育2022～2023第一学年度的XX（学科）暑假课...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E6%9A%91%E5%81%87%E4%BD%9C%E4%B8%9A%EF%BC%8C%E5%A5%96%E7%8A%B6" class="tag">暑假作业，奖状</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="hsw8yld.html">婉莹是谁（婉莹是谁的妻子</a></h2>
+        <div class="article-excerpt"><h1><b>婉莹是谁？</b>深度解析与多重身份揭秘</h1><h2>本文目录一览：</h2>一、冰心的丈夫是谁？二、《她的城》中谢长江出轨对象是谁？三、谢婉莹又是何人？四、《她的城》小三婉莹的最终结局五、著名作家萧红的原名是什么？<h2 id='冰心的丈夫是谁'>冰心的丈夫是谁？</h2><p>...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E5%A9%89%E8%8E%B9" class="tag">婉莹</a><a href="tags.html?tag=%E8%B0%A2%E5%A9%89%E8%8E%B9" class="tag">谢婉莹</a><a href="tags.html?tag=%E5%86%B0%E5%BF%83" class="tag">冰心</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="o5jaa.html">姓张女孩名字配合好听</a></h2>
+        <div class="article-excerpt"><h2id='姓张女孩起名字大全'>姓张女孩起名字大全</h2><p>一、张茹玉、张婷玉、张晴玉、张玉宇、张萱玉、张璇玉、张玉冰、张玉珊、张玉曦、张歆玉、张蕊玉、张玉芊、张倩玉、张舒玉、张玉素、张灶型顺玉、张静玉、张慧玉、张玉岚、张茉玉、张菱玉。</p><p>二、精选沉闷可爱爽朗的女孩名字【张莉仪】...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E5%BC%A0%E5%A7%93%E8%B5%B7%E5%90%8D%EF%BC%8C%E5%A5%B3%E5%AD%A9%E8%B5%B7%E5%90%8D" class="tag">张姓起名，女孩起名</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="s1r9.html">舞蹈xx时期oh的串词</a></h2>
+        <div class="article-excerpt">爱像阳光紧张着你以及我，有你的祝愿，不过不去的苦，让咱们高声的把爱传进来。请鉴赏大合唱《让爱传进来》。二人转小贺年南国风物，千里冰封，万里雪飘。让咱们陪同风的柔情、冰的旋律、雪的浪漫，去浏览一下西南小山村落那火辣辣的年味儿吧！请鉴赏由驰名歌咏家XXX女士、XXX学生演唱的二人转——小贺年。霸王别姬（...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E8%88%9E%E8%B9%88%E4%B8%B2%E8%AF%8D%EF%BC%8Cxx%E6%97%B6%E6%9C%9F" class="tag">舞蹈串词，xx时期</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="wby9uq17al.html">婉莹这个名字的寄义</a></h2>
+        <div class="article-excerpt"><h1><b>婉莹</b>名字的深刻寓意与解析</h1><p>“婉莹”一名，常常寄托着父母对女儿的美好期许。本文将深入探讨“婉莹”二字的含义，并结合姓名学对其进行解读，同时加入与“婉莹”相关的历史文化名人，以期更全面地展现此名的独特韵味。</p><h2><b>婉莹</b>的字义解析</h2><p><...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E5%A9%89%E8%8E%B9" class="tag">婉莹</a><a href="tags.html?tag=%E5%90%8D%E5%AD%97%E8%A7%A3%E6%9E%90" class="tag">名字解析</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="o78qsvjw6na.html">婉莹的名字奈何样样</a></h2>
+        <div class="article-excerpt"><h1><b>婉莹之名的深层解读：寓意、来源与文化内涵</b></h1><p>“婉莹”二字，常赋予女子，其音其形，皆蕴含着一种温婉美好的意境。那么，<b>婉莹</b>究竟代表了什么？又有着怎样的文化内涵？本文将从多角度深入剖析“婉莹”之名的奥妙，并探讨其对个体的影响。</p><h2>婉莹的字面含义与...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E5%A9%89%E8%8E%B9" class="tag">婉莹</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="w0x1oji34qs.html">姓张女孩名字寓意好听</a></h2>
+        <div class="article-excerpt"><h1><b>姓张女孩起名：寓意美好，名字动听</b></h1><p>为姓张的女孩起一个寓意美好又动听的名字，是许多父母的心愿。一个好名字，不仅能寄托父母的期望，还能伴随孩子一生，带来好运。</p><h2><b>一、精选寓意美好的张姓女孩名字</b></h2><p>以下是一些精选的张姓女孩名字，寓意...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E5%BC%A0%E5%A7%93%E5%A5%B3%E5%AD%A9%E8%B5%B7%E5%90%8D" class="tag">张姓女孩起名</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="3t5v3gtjj1ap.html">婉莹的意思以及寄义</a></h2>
+        <div class="article-excerpt"><h1><b>婉莹名字的深层含义与美好寓意</b></h1><p>在中国传统文化中，名字不仅仅是一个符号，更蕴含着父母对子女的美好期望和祝愿。<b>“婉莹”</b>这个名字，婉转动听，寓意深刻。本文将深入探讨“婉莹”二字的含义，并从多个角度解读其美好寓意，希望能为正在起名的父母们提供一些灵感。</p...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E5%90%8D%E5%AD%97%E5%AF%93%E6%84%8F" class="tag">名字寓意</a><a href="tags.html?tag=%E5%A5%B3%E5%AD%A9%E8%B5%B7%E5%90%8D" class="tag">女孩起名</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="ubdv11n.html">姓张女孩名字土气有修养</a></h2>
+        <div class="article-excerpt"><h1><b>姓张女孩起名：告别土气，拥抱诗意修养</b></h1><p>为张姓女孩起一个既有内涵又不落俗套的名字，是许多父母的愿望。以下精选一系列富有诗意和修养的名字，希望能给你带来灵感。</p><h2><b>一、精选名字赏析</b></h2><p><b>张盼妮：</b>寄托期盼与温暖，寓意生活充...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E5%BC%A0%E5%A7%93%E5%A5%B3%E5%AD%A9%EF%BC%8C%E5%90%8D%E5%AD%97" class="tag">张姓女孩，名字</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="07w4txg9bsv.html">罗智莹是哪里的</a></h2>
+        <div class="article-excerpt"><h1><b>罗智莹是哪里的？</b></h1><h2>本文目录一览：</h2><h3><b>张婉莹是哪里人</b></h3><p>张婉莹是宜昌人，生于1997年，2022年5月18日，在超市购物时突遇险情，被几名黑衣人围攻，该事件曾引发社会关注，具体原因和后续处理情况备受关注。</p><p>张婉莹...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E7%BD%97%E6%99%BA%E8%8E%B9" class="tag">罗智莹</a><a href="tags.html?tag=%E5%BC%A0%E5%A9%89%E8%8E%B9" class="tag">张婉莹</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="afk3ecym.html">暑假作业展现好的奖状范本</a></h2>
+        <div class="article-excerpt">一、在奖状上填写学年时，咱们应凭证残缺学年的尺度。好比，若之后学年为2021年至2022年，咱们应残缺填写为“2021~2022学年度”。这样做可能清晰展现出全部学年的跨度。假如是在填写某个详细学期的奖状，咱们可能凭证学期的差距，进一步细分。好比，假如填写的是上学期，就能写为“2021~2022学年...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E6%9A%91%E5%81%87%E4%BD%9C%E4%B8%9A%EF%BC%8C%E5%A5%96%E7%8A%B6" class="tag">暑假作业，奖状</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="1ybt.html">暑假作业班招生文案</a></h2>
+        <div class="article-excerpt"><h1><b>暑假作业班招生</b></h1><p>咱们不是在抄作业，咱们只是作业的搬运工。1作业在开学前特意多，假期也是用来补作业的，都是自己挖的坑。1锄禾日当午，暑假真辛勤，作业多如山，写也写不完。1刚放假那段光阴熬夜玩电脑，快开学那段光阴熬夜赶作业。1作业多我可能接受，但看不懂我就不违心了。<...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E6%9A%91%E5%81%87%E4%BD%9C%E4%B8%9A%E7%8F%AD%EF%BC%8C%E6%8B%9B%E7%94%9F" class="tag">暑假作业班，招生</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="nu6zms4yu.html">罗智莹以及张婉莹为甚么要拍</a></h2>
+        <div class="article-excerpt"><h1><b>罗智莹与张婉莹：揭秘视频拍摄背后的原因</b></h1><h2>本文目录一览：</h2>一、张婉莹为甚么要拍那样的视频二、张婉莹如今多少岁了三、罗智莹以及张婉莹在哪一个平台直播四、张婉莹使命是哪里人<h2 id='张婉莹为什么要拍那样的视频'>张婉莹为甚么要拍那样的视频</h2><p>...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E7%BD%97%E6%99%BA%E8%8E%B9%EF%BC%8C%E5%BC%A0%E5%A9%89%E8%8E%B9" class="tag">罗智莹，张婉莹</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article-item">
+    <div class="article-content">
+        <h2 class="article-title"><a href="oy8ff8cowi.html">张婉莹的作业-整理群集（更新中）</a></h2>
+        <div class="article-excerpt"><h1><b>张婉莹的作业：整理与合集（更新中）</b></h1><p>本文汇总了关于“张婉莹的作业”的相关信息，旨在提供一个全面且持续更新的资源平台，方便读者了解这一网络热点事件。</p><h2>本文目录一览：</h2><ul>    <li><a href="#张婉莹的暑假作业与英语学习">张婉...</div>
+        <div class="article-meta">
+            <div class="article-tags">
+                <a href="tags.html?tag=%E5%BC%A0%E5%A9%89%E8%8E%B9%EF%BC%8C%E6%9A%91%E5%81%87%E4%BD%9C%E4%B8%9A" class="tag">张婉莹，暑假作业</a>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+
+    <div class="pagination">
+        <div class="pagination"><a href="posts_20.html">上一页</a><a href="posts.html">1</a><span>...</span><a href="posts_19.html">19</a><a href="posts_20.html">20</a><span class="current">21</span><a href="posts_22.html">22</a><a href="posts_23.html">23</a><span>...</span><a href="posts_44.html">44</a><a href="posts_22.html">下一页</a></div>
+    </div>
+    
+    <div class="friendly-links">
+        <div class="container">
+            <h3 class="title">生活点滴好用</h3>
+            <ul>
+                <li><a href="http://www.weizhang8.cn/" rel="nofollow" target="_blank">违章查询</a></li>
+                <li><a href="https://www.didiglobal.com/" rel="nofollow" target="_blank">滴滴打车</a></li>
+            </ul>
+        </div>
+        
+        <div class="container">
+            <h3 class="title">购物网址大全</h3>
+            <ul>
+                <li><a href="http://www.vip.com/" rel="nofollow" target="_blank">唯品会</a></li>
+                <li><a href="http://www.vmall.com/" rel="nofollow" target="_blank">华为商城</a></li>
+                <li><a href="http://www.tmall.com/" rel="nofollow" target="_blank">天猫商城</a></li>
+                <li><a href="https://www.amazon.cn/" rel="nofollow" target="_blank">亚马逊</a></li>
+                <li><a href="http://www.jd.com/" rel="nofollow" target="_blank">京东商城</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© 2023 小梦静态博客 | <a href="/sitemap.xml" target="_blank">网站地图</a></p>
+    </div>
+</body>
+</html>

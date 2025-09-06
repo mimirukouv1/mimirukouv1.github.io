@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Language" content="zh-CN">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>money冷冷微博-秘密入口</title>
+<meta property="og:title" content="money冷冷微博">
+<meta property="og:description" content="<h1><b>Money冷冷：天蝎座的真实面相与内心独白</b></h1><p>Money冷冷，一个自带光环的名字，是否也拥有天蝎座那令人着迷的复杂个性？天蝎座，一个充满神秘色彩的星座，在人们的印象中往往与激情、深刻、甚至带着一丝危险感联系在一起。那么，一个天蝎座的Money冷冷，又会展现出怎样的真...">
+<meta property="og:url" content="https://mimirukouv1.github.io/pyal.html">
+<meta property="og:type" content="article">
+    <style>
+        body {
+            font-family: "Garamond", serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.8;
+            background: #121212 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" opacity="0.04"><path d="M0,0 L80,80 M80,0 L0,80" stroke="%23cc3366" stroke-width="2"/></svg>');
+            color: #e0e0e0;
+        }
+        h1 {
+            color: #cc3366;
+            margin-bottom: 15px;
+            text-align: center;
+            text-shadow: 0 0 8px rgba(204, 51, 102, 0.5);
+            border-bottom: 2px solid #cc3366;
+            padding-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .content {
+            color: #ccc;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid #444;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            border-radius: 5px;
+            position: relative;
+        }
+        .content:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: #cc3366;
+        }
+        .tags {
+            margin: 30px 0;
+            font-size: 0.9em;
+        }
+        .tags a {
+            background: linear-gradient(to bottom, #222, #1a1a1a);
+            color: #cc9999;
+            padding: 8px 15px;
+            text-decoration: none;
+            margin-right: 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 10px;
+            border: 1px solid #444;
+            transition: all 0.3s;
+        }
+        .tags a:hover {
+            background: linear-gradient(to bottom, #331a1f, #2a0a14);
+            color: #cc3366;
+            border: 1px solid #cc3366;
+            box-shadow: 0 0 10px rgba(204, 51, 102, 0.3);
+        }
+        
+        .recommend-articles {
+            margin: 40px 0;
+            padding: 20px;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 8px;
+            border: 1px solid #444;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            position: relative;
+        }
+        .recommend-articles:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, #cc3366, transparent);
+        }
+        .recommend-articles h3 {
+            color: #cc3366;
+            margin-bottom: 20px;
+            text-shadow: 0 0 6px rgba(204, 51, 102, 0.4);
+        }
+
+        .recommend-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .recommend-list li {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+        }
+        .recommend-list li:before {
+            content: "✠";
+            color: #cc3366;
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1.1em;
+        }
+        .recommend-list a {
+            color: #cc9999;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .recommend-list a:hover {
+            color: #cc3366;
+            text-decoration: underline;
+            text-shadow: 0 0 5px rgba(204, 51, 102, 0.5);
+        }
+        
+        .friendly-links {
+            margin-top: 50px;
+        }
+        .friendly-links .container {
+            margin-bottom: 30px;
+        }
+        .friendly-links .title {
+            font-size: 1.1em;
+            color: #cc3366;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #444;
+        }
+        .friendly-links ul {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        .friendly-links li a {
+            display: block;
+            padding: 10px 12px;
+            background: linear-gradient(to bottom, #222, #1a1a1a);
+            border-radius: 4px;
+            color: #cc9999;
+            text-decoration: none;
+            font-size: 0.9em;
+            border: 1px solid #444;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .friendly-links li a:hover {
+            background: linear-gradient(to bottom, #331a1f, #2a0a14);
+            color: #cc3366;
+            border: 1px solid #cc3366;
+            box-shadow: 0 0 8px rgba(204, 51, 102, 0.3);
+        }
+        
+        a[href$="xml"] {
+            display: block;
+            text-align: center;
+            margin-top: 40px;
+            color: #999;
+            font-size: 14px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        a[href$="xml"]:hover {
+            color: #cc3366;
+            text-decoration: underline;
+        }
+        .software-img {
+            display: block;
+            margin: 0 auto 20px;
+            max-width: 150px;
+            border: 1px solid #cc3366;
+            box-shadow: 0 0 15px rgba(204, 51, 102, 0.5);
+        }
+    </style>
+    <script src="/yidong.js"></script>
+</head>
+<body>
+    <header>
+         <img src="/logo.jpg" alt="logo" class="software-img">   
+    </header>
+
+    <h1>money冷冷微博</h1>
+
+    <div class="content">
+        <p><h1><b>Money冷冷：天蝎座的真实面相与内心独白</b></h1><p>Money冷冷，一个自带光环的名字，是否也拥有天蝎座那令人着迷的复杂个性？天蝎座，一个充满神秘色彩的星座，在人们的印象中往往与激情、深刻、甚至带着一丝危险感联系在一起。那么，一个天蝎座的Money冷冷，又会展现出怎样的真实面貌呢？</p><p><b>天蝎座的AB面：</b></p><p><b>渴望与恐惧：</b>天蝎座内心深处渴望被理解和被爱，但同时又极度害怕受到伤害。他们对于感情极其敏感，对方哪怕一个微小的举动或眼神，都会被他们深深地印在脑海里，然后开始无休止的猜测和分析，试图理解对方的真实想法。这种小心翼翼，其实源于他们对爱的深沉和执着。</p><p><b>独立与依赖：</b>天蝎座的女生通常都非常独立自主，即使身处陌生的环境，也能迅速适应，甚至能够带领他人。她们拥有敏锐的洞察力和独立的见解，不易被他人左右。然而，在坚强的外表下，她们也渴望被保护，渴望有一个可以依靠的肩膀。</p><p><b>冷静与激情：</b>天蝎座男生冷静、理智，拥有高度的洞察力。他们善于思考，不轻易被表面的现象所迷惑。他们崇尚公平竞争，但同时也具备强烈的*河蟹*心。他们对未来有清晰的规划，不会只关注眼前的利益。</p><p><b>爱与恨：</b>天蝎座爱憎分明，对待朋友非常真诚，但对于背叛和伤害，他们绝不会轻易原谅。他们拥有强大的记忆力，能够记住很久以前的细节，恩怨分明是他们的标志。</p><p><b>天蝎座的内心独白：</b></p><p>或许，在Money冷冷的微博中，我们可以窥见一个天蝎座的真实内心。他们或许会分享对生活的热爱，对事业的追求，对友情的珍视，但也会流露出对孤独的恐惧，对未来的迷茫，以及对过往伤痛的怀念。</p><p><b>给天蝎座的建议：</b></p><p>学会放松，不要过于敏感和多疑。尝试表达自己的真实想法，与他人建立更深层次的连接。相信自己的直觉，但也要理性分析，避免冲动行事。珍惜身边爱你的人，敞开心扉，拥抱美好的未来。</p><p><b>SEO</p>
+    </div>
+    
+    <div class="recommend-articles">
+        <h3>2篇随机内容推荐</h3>
+        <ul class="recommend-list">
+            <li><a href="nl33lp46wk6v.html">秋水节选</a></li><li><a href="bx3gs1188m5.html">学妹减速跑腿腿模特</a></li>
+        </ul>
+    </div>
+    
+    <div class="friendly-links">
+        <div class="container">
+            <h4 class="title">生活点滴好用</h4>
+            <ul>
+                <li><a href="http://www.weizhang8.cn/" rel="nofollow" target="_blank">违章查询</a></li>
+                <li><a href="https://www.didiglobal.com/" rel="nofollow" target="_blank">滴滴打车</a></li>
+            </ul>
+        </div>
+        
+        <div class="container">
+            <h4 class="title">购物网址大全</h4>
+            <ul>
+                <li><a href="http://www.vip.com/" rel="nofollow" target="_blank">唯品会</a></li>
+                <li><a href="http://www.vmall.com/" rel="nofollow" target="_blank">华为商城</a></li>
+                <li><a href="http://www.tmall.com/" rel="nofollow" target="_blank">天猫商城</a></li>
+                <li><a href="https://www.amazon.cn/" rel="nofollow" target="_blank">亚马逊</a></li>
+                <li><a href="http://www.jd.com/" rel="nofollow" target="_blank">京东商城</a></li>
+            </ul>
+        </div>
+    </div>
+    <a href="/sitemap.xml" target="_blank">xml网站地图</a>
+</body>
+</html>
